@@ -13,7 +13,7 @@ The firmware implements currently the following features:
 - Servo sweep for the [ball distribution device](https://github.com/generationmake/BDD)
 - NMEA parser on RS232_1 (used for UBLOX GPS)
 - NMEA parser on RS232_2 (used for KVH-C100 fluxgate compass)
-- Host communication via UART
+- Host communication via UART and/ or USB
 
 ### Host communication protocol
 
