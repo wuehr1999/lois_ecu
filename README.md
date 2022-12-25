@@ -24,4 +24,4 @@ The communication protocol is ASCII-based and the messages have the following fo
 The table below shows the currently implemented messages.
 | Command | To ECU (E)/ To Host (H) | Payload interpretation |
 | - | - | - |
-| 0x01 | E | ```int16``` dutycycle left, ``int16``` dutycycle right |
+| 0x01 | E | ```int16``` dutycycle left, ```int16``` dutycycle right |
