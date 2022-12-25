@@ -22,6 +22,6 @@ The communication protocol is ASCII-based and the messages have the following fo
 ```:<8-bit command><32-bit payload><8-bit crc><\n>```
 
 The table below shows the currently implemented messages.
-| Command | Function | To ECU (E)/ To Host (H) | Payload interpretation |
-| - | - | - | - |
-| ```0x01``` | Dutycycle of left and right motor | E | ```2 x int16``` (-100 % - 100 %) |
+| Command | Function | To ECU (E)/ To Host (H) | Payload interpretation | Periodic |
+| - | - | - | - | - |
+| ```0x01``` | Dutycycle of left and right motor | E | ```2 x int16``` (-100 % - 100 %) | (x) |
