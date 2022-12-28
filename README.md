@@ -14,7 +14,7 @@ The [firmware](https://github.com/wuehr1999/lois_ecu/tree/main/firmware/loisECU)
 - Servo sweep for the [ball distribution device](https://github.com/generationmake/BDD)
 - NMEA parser on RS232_1 (used for UBLOX GPS)
 - NMEA parser on RS232_2 (used for KVH-C100 fluxgate compass)
-- Host communication via UART and/ or USB
+- Host communication via UART
 - 2048 Byte reealtime reord buffer ( recording of RPM, torque and compass heading over a given time )
 - Easy human readable and debuggable ASCII communication leaned on modbus protocol with optional checksum
 
