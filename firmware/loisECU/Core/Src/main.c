@@ -157,7 +157,7 @@ void disableIRQ()
 void enableIRQ()
 {
 	__enable_irq();
-	HAL_UART_Receive_IT(&huart1, (uint8_t*)&uart1In, 1);
+//	HAL_UART_Receive_IT(&huart1, (uint8_t*)&uart1In, 1);
 	HAL_UART_Receive_IT(&huart2, (uint8_t*)&uart2In, 1);
 	HAL_UART_Receive_IT(&huart3, (uint8_t*)&uart3In, 1);
 }
@@ -747,7 +747,7 @@ int main(void)
 
   Powertrain_Init();
   Ballshitter_Init();
-  KVH_Init();
+  //KVH_Init();
 
   // Init software I2C
   QUEUE_Init(&wireRxQueue, (char*)wireRx, 20);
@@ -765,14 +765,29 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+//	  disableIRQ();
+//	  __disable_irq();
 	  INTERFACE_Parse(&interfaceQueue);
 	  RECORD_Process();
 	  INTERFACE_ProcessPeriodics();
 	  TERMINAL_Process();
 	  KVH_Process();
-	  GPS_Process();
+//	  GPS_Process();
 	  EMERGENCY_Process();
 	  Ballshitter_Drop();
+//	  	__enable_irq();
+
+//	  	HAL_UART_Receive_IT(&huart1, (uint8_t*)&uart1In, 1);
+//	  	HAL_UART_Receive_IT(&huart2, (uint8_t*)&uart2In, 1);
+//	  	HAL_UART_Receive_IT(&huart3, (uint8_t*)&uart3In, 1);
+//	    HAL_TIM_Base_Start_IT(&htim2);
+//	    HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
+//	    HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
+//	    HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
+//	    HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_4);
+//	    HAL_TIM_Base_Start_IT(&htim4);
+//	  HAL_Delay(200);
+//	  enableIRQ();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -1174,7 +1189,7 @@ static void MX_USART1_UART_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN USART1_Init 2 */
-	HAL_UART_Receive_IT(&huart1, (uint8_t*)&uart1In, 1);
+//	HAL_UART_Receive_IT(&huart1, (uint8_t*)&uart1In, 1);
   /* USER CODE END USART1_Init 2 */
 
 }
