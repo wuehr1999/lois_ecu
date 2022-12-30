@@ -42,7 +42,6 @@ float CTRL_Calculate(float curr, float dest, CTRL_t* ctrl, bool restart)
 
   // Do controller calculation
   ctrl->ek = dest - curr;
-//  ctrl->e = dest - curr;
   ctrl->uk = ctrl->d0 * ctrl->ek + ctrl->d1 * ctrl->ek_1 + ctrl->d2 * ctrl->ek_2
             + ctrl->c1 * ctrl->uk_1 + ctrl->c2 * ctrl->uk_2;
 
@@ -54,12 +53,6 @@ float CTRL_Calculate(float curr, float dest, CTRL_t* ctrl, bool restart)
   }
   ctrl->ek_2 = ctrl->ek_1;
   ctrl->ek_1 = ctrl->ek;
-
-//  if(ctrl->uk < ctrl->maxOut && ctrl->uk > -ctrl->maxOut)
-//  {
-//    ctrl->e_sum += ctrl->e;
-//  }
-//  ctrl->uk = ctrl->e * ctrl->Kp + ctrl->e_sum * ctrl->Tn * ctrl->T;
 
   if((dest * ctrl->uk) < 0)
   {
