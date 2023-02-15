@@ -10,7 +10,7 @@
  @retval phi           Actual phase margin
  **/
 function [gPI, gO, params_t, phi] = tunePT1(sys, sampletime_sec, phi_res, wd)
-    params_t = struct('Kp', 'Tn', 'Td', 'wd')
+    params_t = struct('Kp', 'Tn', 'Td', 'Ka', 'wd', '')
     
     params_t.Tn = sys.T1
 
@@ -26,7 +26,7 @@ function [gPI, gO, params_t, phi] = tunePT1(sys, sampletime_sec, phi_res, wd)
     phi = ((90 / 180) * %pi - atan(params_t.wd * params_t.Td)) / %pi * 180
     
     params_t.Kp = (params_t.wd * params_t.Tn * sqrt(1 + params_t.wd^2*params_t.Td^2)) / sys.Kp
-    
+    params_t.Ka = 1 / (2 * params_t.Kp)// * sys.Kp)
     num = poly([params_t.Kp, params_t.Kp*params_t.Tn],'s','coeff')
     den = poly([0 params_t.Tn params_t.Td*params_t.Tn],'s','coeff')
     gPI = syslin('c', num/den)
@@ -49,7 +49,7 @@ endfunction
  @retval phi           Actual phase margin
  **/
 function [gPI, gO, params_t, phi] = tunePT2(sys, sampletime_sec, phi_res, wd)
-    params_t = struct('Kp', 'Tn', 'Td', 'wd')
+    params_t = struct('Kp', 'Tn', 'Td', 'Ka', 'wd', '')
 
     if sys.T1 < sys.T2
         params_t.Tn = sys.T2
@@ -70,7 +70,8 @@ function [gPI, gO, params_t, phi] = tunePT2(sys, sampletime_sec, phi_res, wd)
     phi = ((90 / 180) * %pi - atan(params_t.wd * params_t.Td) - atan(params_t.wd * T3)) / %pi * 180
     
     params_t.Kp = (params_t.wd*params_t.Tn * sqrt(1 + params_t.wd^2*params_t.Td^2) * sqrt(1 + params_t.wd^2*T3^2)) / sys.Kp
-    
+    params_t.Ka = 1 / (2 * params_t.Kp)// * sys.Kp)
+        
     num = poly([params_t.Kp, params_t.Kp*params_t.Tn],'s','coeff')
     den = poly([0 params_t.Tn params_t.Td*params_t.Tn],'s','coeff')
     gPI = syslin('c', num/den)

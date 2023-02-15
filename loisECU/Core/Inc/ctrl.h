@@ -12,7 +12,7 @@
  */
 typedef struct CTRL_t
 {
-  volatile float Kp, Tn, Td, T; // Continuous and sampling time
+  volatile float Ka, Kp, Tn, Td, T; // Continuous and sampling time
   volatile float d0, d1, d2, c1, c2; // Discrete coefficients
   volatile float ek_1, ek_2, uk_1, uk_2; // Discrete memory banks
   volatile float ek, uk; // Discrete input and output
@@ -23,6 +23,7 @@ typedef struct CTRL_t
 /*
  * @brief Initializes controller
  *
+ * @param Ka
  * @param Kp
  * @param Tn
  * @param Td
@@ -31,7 +32,7 @@ typedef struct CTRL_t
  * @param maxOut 	Output value limit
  * @param ctrl 		Controller
  */
-inline void CTRL_Init(float Kp, float Tn, float Td, float T, float maxIn, float maxOut, CTRL_t* ctrl);
+inline void CTRL_Init(float Ka, float Kp, float Tn, float Td, float T, float maxIn, float maxOut, CTRL_t* ctrl);
 
 /*
  * @brief Controller update calculation

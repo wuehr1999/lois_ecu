@@ -1,7 +1,8 @@
 #include "ctrl.h"
 
-void CTRL_Init(float Kp, float Tn, float Td, float T, float maxIn, float maxOut, CTRL_t* ctrl)
+void CTRL_Init(float Ka, float Kp, float Tn, float Td, float T, float maxIn, float maxOut, CTRL_t* ctrl)
 {
+  ctrl->Ka = Ka;
   ctrl->Kp = Kp;
   ctrl->Tn = Tn;
   ctrl->Td = Td;
@@ -42,7 +43,7 @@ float CTRL_Calculate(float curr, float dest, CTRL_t* ctrl, bool restart)
 
   // Do controller calculation
   ctrl->ek = dest - curr;
-  ctrl->uk = ctrl->d0 * ctrl->ek + ctrl->d1 * ctrl->ek_1 + ctrl->d2 * ctrl->ek_2
+  ctrl->uk = ctrl->Ka * dest + ctrl->d0 * ctrl->ek + ctrl->d1 * ctrl->ek_1 + ctrl->d2 * ctrl->ek_2
             + ctrl->c1 * ctrl->uk_1 + ctrl->c2 * ctrl->uk_2;
 
   // Update registers with anti windup check

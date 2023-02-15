@@ -157,7 +157,7 @@ void disableIRQ()
 void enableIRQ()
 {
 	__enable_irq();
-//	HAL_UART_Receive_IT(&huart1, (uint8_t*)&uart1In, 1);
+	HAL_UART_Receive_IT(&huart1, (uint8_t*)&uart1In, 1);
 	HAL_UART_Receive_IT(&huart2, (uint8_t*)&uart2In, 1);
 	HAL_UART_Receive_IT(&huart3, (uint8_t*)&uart3In, 1);
 }
@@ -351,22 +351,28 @@ void INTERFACE_Process(INTERFACE_Data_t* dat)
 		RPMCTRL_StartRecord(&ctrlRight, (uint32_t)dat->val2, &record2, true);
 		break;
 	case ROBOT_INSTRUCTION_LEFT_KP:
-		CTRL_Init(float_2x16(dat->val1, dat->val2), piLeft.Tn, piLeft.Td, piLeft.T, piLeft.maxIn, piLeft.maxOut, &piLeft);
+		CTRL_Init(piLeft.Ka, float_2x16(dat->val1, dat->val2), piLeft.Tn, piLeft.Td, piLeft.T, piLeft.maxIn, piLeft.maxOut, &piLeft);
 		break;
 	case ROBOT_INSTRUCTION_LEFT_TN:
-		CTRL_Init(piLeft.Kp, float_2x16(dat->val1, dat->val2), piLeft.Td, piLeft.T, piLeft.maxIn, piLeft.maxOut, &piLeft);
+		CTRL_Init(piLeft.Ka, piLeft.Kp, float_2x16(dat->val1, dat->val2), piLeft.Td, piLeft.T, piLeft.maxIn, piLeft.maxOut, &piLeft);
 		break;
 	case ROBOT_INSTRUCTION_LEFT_TD:
-		CTRL_Init(piLeft.Kp, piLeft.Tn, float_2x16(dat->val1, dat->val2), piLeft.T, piLeft.maxIn, piLeft.maxOut, &piLeft);
+		CTRL_Init(piLeft.Ka, piLeft.Kp, piLeft.Tn, float_2x16(dat->val1, dat->val2), piLeft.T, piLeft.maxIn, piLeft.maxOut, &piLeft);
+		break;
+	case ROBOT_INSTRUCTION_LEFT_KA:
+		CTRL_Init(float_2x16(dat->val1, dat->val2), piLeft.Kp, piLeft.Tn, piLeft.Td, piLeft.T, piLeft.maxIn, piLeft.maxOut, &piLeft);
 		break;
 	case ROBOT_INSTRUCTION_RIGHT_KP:
-		CTRL_Init(float_2x16(dat->val1, dat->val2), piRight.Tn, piRight.Td, piRight.T, piRight.maxIn, piRight.maxOut, &piRight);
+		CTRL_Init(piRight.Ka, float_2x16(dat->val1, dat->val2), piRight.Tn, piRight.Td, piRight.T, piRight.maxIn, piRight.maxOut, &piRight);
 		break;
 	case ROBOT_INSTRUCTION_RIGHT_TN:
-		CTRL_Init(piRight.Kp, float_2x16(dat->val1, dat->val2), piRight.Td, piRight.T, piRight.maxIn, piRight.maxOut, &piRight);
+		CTRL_Init(piRight.Ka, piRight.Kp, float_2x16(dat->val1, dat->val2), piRight.Td, piRight.T, piRight.maxIn, piRight.maxOut, &piRight);
 		break;
 	case ROBOT_INSTRUCTION_RIGHT_TD:
-		CTRL_Init(piRight.Kp, piRight.Tn, float_2x16(dat->val1, dat->val2), piRight.T, piRight.maxIn, piRight.maxOut, &piRight);
+		CTRL_Init(piRight.Ka, piRight.Kp, piRight.Tn, float_2x16(dat->val1, dat->val2), piRight.T, piRight.maxIn, piRight.maxOut, &piRight);
+		break;
+	case ROBOT_INSTRUCTION_RIGHT_KA:
+		CTRL_Init(float_2x16(dat->val1, dat->val2), piRight.Kp, piRight.Tn, piRight.Td, piRight.T, piRight.maxIn, piRight.maxOut, &piRight);
 		break;
 	case ROBOT_INSTRUCTION_RECORDHEADING:
 		records = uint32_2x16(dat->val1, dat->val2);
@@ -709,8 +715,8 @@ int main(void)
   INTERFACE_AddPeriodic(ROBOT_PERIODIC_ODOM, ROBOT_PERIOD_ODOM);
 
   // Init RPM control
-  CTRL_Init(ROBOT_LEFT_KP, ROBOT_LEFT_TN, ROBOT_LEFT_TD, ROBOT_RPMCTRL_T, ROBOT_RPM_MAX, ROBOT_DUTYCYCLE_MAX, &piLeft);
-  CTRL_Init(ROBOT_RIGHT_KP, ROBOT_RIGHT_TN, ROBOT_RIGHT_TD, ROBOT_RPMCTRL_T, ROBOT_RPM_MAX, ROBOT_DUTYCYCLE_MAX, &piRight);
+  CTRL_Init(ROBOT_LEFT_KA, ROBOT_LEFT_KP, ROBOT_LEFT_TN, ROBOT_LEFT_TD, ROBOT_RPMCTRL_T, ROBOT_RPM_MAX, ROBOT_DUTYCYCLE_MAX, &piLeft);
+  CTRL_Init(ROBOT_RIGHT_KA, ROBOT_RIGHT_KP, ROBOT_RIGHT_TN, ROBOT_RIGHT_TD, ROBOT_RPMCTRL_T, ROBOT_RPM_MAX, ROBOT_DUTYCYCLE_MAX, &piRight);
   RPMCTRL_Init(ROBOT_ENCODER_STEPS, ROBOT_LEFT_CORRFACSHORT, ROBOT_LEFT_CORRFACLONG, &ctrlLeft);
   RPMCTRL_Init(ROBOT_ENCODER_STEPS, ROBOT_RIGHT_CORRFACSHORT, ROBOT_RIGHT_CORRFACLONG, &ctrlRight);
   ODOMETRY_Init(ROBOT_ENCODER_STEPS, ROBOT_WHEELRADIUS_M, ROBOT_WHEELWIDTH_M, &odom);

@@ -39,15 +39,13 @@
 #define ROBOT_RIGHT_CORRFACLONG 0.9198685
 
 // Fallback controller parameters
+#define ROBOT_LEFT_KA 0.0
 #define ROBOT_LEFT_KP 0.4412007
 #define ROBOT_LEFT_TD 0.6494819
-//#define ROBOT_LEFT_KP 0.5
-//#define ROBOT_LEFT_TD 2.5
 #define ROBOT_LEFT_TN 0.286456
+#define ROBOT_RIGHT_KA 0.0
 #define ROBOT_RIGHT_KP 0.7316168
 #define ROBOT_RIGHT_TD 0.6494819
-//#define ROBOT_RIGHT_KP 0.5
-//#define ROBOT_RIGHT_TD 2.5
 #define ROBOT_RIGHT_TN 0.1382718
 
 // Interface setup (message format is :%02d%04d%04d\n. First byte is instruction header followed by 2x2byte payload data.)
@@ -107,5 +105,8 @@
 
 #define ROBOT_PERIODIC_ODOM 0x20
 #define ROBOT_PERIOD_ODOM 400
+
+#define ROBOT_INSTRUCTION_LEFT_KA 0x21
+#define ROBOT_INSTRUCTION_RIGHT_KA 0x22
 
 #endif /* INC_ROBOTPARAMETERS_H_ */
